@@ -1,7 +1,10 @@
 import useProducts from "../hooks/useProducts";
+import Notification from "./Notification";
+import useNotifications from '../hooks/useNotification';
 
 function Products() {
   const { products, cart, addProduct, removeProduct, calculateSum } = useProducts();
+  const { notifications, createNotification } = useNotifications();
 
   const isInCart = (product) => {
     return !cart.find((item) => item.id === product.id);
@@ -9,6 +12,9 @@ function Products() {
 
   return (
     <div>
+       {notifications !== null ? (
+        <Notification message={notifications} />
+      ) : <></>}
       <div className="row">
         {products.map((product) => {
           return (
@@ -27,7 +33,8 @@ function Products() {
                 </p>
                 {isInCart(product) && (
                   <button
-                    onClick={() => addProduct(product)}
+                    onClick={() => {addProduct(product);
+                      createNotification("Product added to the cart");}}
                     className="btn btn-primary"
                   >
                     Select
@@ -35,7 +42,9 @@ function Products() {
                 )}
                 {!isInCart(product) && (
                   <button
-                    onClick={() => removeProduct(product)}
+                    onClick={() =>  
+                     {removeProduct(product);
+                      createNotification("Product removed from the cart");}}
                     className="btn btn-danger"
                   >
                     Remove
