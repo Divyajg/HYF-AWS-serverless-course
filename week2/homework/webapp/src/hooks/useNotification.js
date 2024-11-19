@@ -1,10 +1,13 @@
 import { useState } from "react";
 
 function useNotifications() {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(null);
 
   const createNotification = (text) => {
-    // hint: use setTimeout
+setNotifications(text);
+    setTimeout(() => {
+      setNotifications(null);
+    }, 3000);
   };
 
   return { notifications, createNotification };
